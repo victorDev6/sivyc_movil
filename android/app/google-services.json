@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "424897615377",
+    "project_id": "sivyc-3233f",
+    "storage_bucket": "sivyc-3233f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424897615377:android:57c48a64086cc4062bc3b0",
+        "android_client_info": {
+          "package_name": "com.icatech.sivyc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424897615377-u125020mdvosbik61f4hf5q0hu589b80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvIi-CSc3Xu3JvbbtmHY-AdqpN6x5mMi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424897615377-u125020mdvosbik61f4hf5q0hu589b80.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
