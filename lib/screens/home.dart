@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sivyc/modelos/item_model.dart';
 import 'package:sivyc/widgets/error_comunicacion.dart';
 import '../widgets/design_notification.dart';
 import 'package:sivyc/http/http_handle.dart';
@@ -213,10 +214,4 @@ class _HomeState extends State<Home> {
     );
   }
 
-}
-
-class ItemModel {
-   String title;
-   IconData icon;
-   ItemModel(this.title, this.icon);
 }
