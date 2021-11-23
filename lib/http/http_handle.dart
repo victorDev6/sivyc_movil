@@ -3,8 +3,11 @@ import 'package:http/http.dart' as http;
 
 class HttpHandle {
 
+   //String path = 'http://192.168.137.252:8000';
+   String path = 'http://sivyc.icatech.gob.mx';
+
    Future auth(String email, String password, String token) async {
-      var url = Uri.parse('http://192.168.137.252:8000/api/sivycMovil/login');
+      var url = Uri.parse('$path/api/sivycMovil/login');
       try {
          var response = await http.post(url, body: {
             'email': email,
@@ -29,7 +32,7 @@ class HttpHandle {
             return 'fin';
          }
       }
-      var url = Uri.parse('http://192.168.137.252:8000/api/sivycMovil/getNotificaciones?page=$page');
+      var url = Uri.parse('$path/api/sivycMovil/getNotificaciones?page=$page');
       try{
          var response = await http.post(url, body: {'idUser': idUser.toString()});
          if (response.statusCode == 200) {
@@ -43,7 +46,7 @@ class HttpHandle {
    }
 
    Future updateRead(String id, bool read) async {
-      var url = Uri.parse('http://192.168.137.252:8000/api/sivycMovil/updateRead');
+      var url = Uri.parse('$path/api/sivycMovil/updateRead');
       try {
          var response = await http.post(url, body: {'id': id, 'read': read.toString()});
          if (response.statusCode == 200) {

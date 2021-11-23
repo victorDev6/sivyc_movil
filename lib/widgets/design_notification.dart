@@ -31,10 +31,10 @@ Widget designNotifi(data1, BuildContext context, homeState) {
       elevation: 2,
       color: data1['read_movil'] != true ? Colors.lightBlue[50] : Colors.white,
       child: ListTile(
-         title: Text(data['titulo'], textAlign: TextAlign.justify,),
+         title: Text(data['cuerpo'], textAlign: TextAlign.justify,),
          subtitle: Padding(
            padding: const EdgeInsets.only(top: 5),
-           child: Text(data['supre_memo']),
+           child: Text(data1['created_at']),
          ),
          onTap: () {
             Navigator.push(context, CupertinoPageRoute(builder: (context) => DetalleNotificacion(data1))).then((value) => {

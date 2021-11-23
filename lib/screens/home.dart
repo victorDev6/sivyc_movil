@@ -1,8 +1,11 @@
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sivyc/main.dart';
 import 'package:sivyc/modelos/item_model.dart';
 import 'package:sivyc/widgets/error_comunicacion.dart';
 import '../widgets/design_notification.dart';
@@ -18,7 +21,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
    String nombre = '';
-   int currentPage = 1;
+   int currentPage = 1, id_sivic = 0;
    late int totalPages;
    bool isLoading = true, onError = false, pullUp = false;
    List notificaciones = [];
@@ -31,7 +34,46 @@ class _HomeState extends State<Home> {
   void initState() {
       checkSesion();
       super.initState();
+      inicializarNotificacion();
   }
+
+   void inicializarNotificacion() {
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+         RemoteNotification? notification = message.notification;
+         AndroidNotification? android = message.notification!.android;
+         if (notification != null && android != null) {
+            flutterLocalNotificationsPlugin.show(
+                notification.hashCode,
+                notification.title,
+                notification.body,
+                NotificationDetails(
+                   android: AndroidNotificationDetails(
+                      channel.id,
+                      channel.name,
+                      //channel.description,
+                      color: Color(0xFF541533),
+                      playSound: true,
+                      icon: '@mipmap/launcher_icon',
+                       enableVibration: true,
+                      enableLights: true,
+                   )
+                )
+            );
+         }
+      });
+
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+         RemoteNotification? notification = message.notification;
+         AndroidNotification? android = message.notification!.android;
+         if (notification != null && android != null) {
+            if (mounted) {
+               setState(() {
+                 refreshController.requestRefresh();
+               });
+            }
+         }
+      });
+   }
 
    void checkSesion() async {
       sharedPreferences = await SharedPreferences.getInstance();
@@ -39,6 +81,7 @@ class _HomeState extends State<Home> {
          ItemModel(sharedPreferences.getString('name')!, Icons.person_outline),
          ItemModel('Cerrar sesión', Icons.arrow_back_ios_rounded),
       ];
+      id_sivic = sharedPreferences.getInt('id_sivyc')!;
    }
 
    void actualizar(String id) {
@@ -147,7 +190,7 @@ class _HomeState extends State<Home> {
          onRefresh: () async {
             currentPage = 1;
             refreshController.resetNoData();
-            final result = await HttpHandle().getNotificaciones(2, currentPage, true, this);
+            final result = await HttpHandle().getNotificaciones(id_sivic, currentPage, true, this);
             if (result == 'error' || result == 'errorApi') {
                onError = true;
                pullUp = false;
@@ -160,11 +203,13 @@ class _HomeState extends State<Home> {
                refreshController.refreshCompleted();
             }
             isLoading = false;
-            setState(() {});
+            if (mounted) {
+               setState(() {});
+            }
          },
           onLoading: () async {
              currentPage++;
-            final result = await HttpHandle().getNotificaciones(2, currentPage, false, this);
+            final result = await HttpHandle().getNotificaciones(id_sivic, currentPage, false, this);
             if (result == 'error' || result == 'errorApi') {
                refreshController.loadFailed();
             } else if (result == 'fin') {
@@ -213,5 +258,6 @@ class _HomeState extends State<Home> {
        ),
     );
   }
+
 
 }

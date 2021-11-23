@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sivyc/http/http_handle.dart';
 
 class DetalleNotificacion extends StatefulWidget {
-  var data1;
+  final data1;
   DetalleNotificacion(this.data1);
 
   @override
@@ -11,7 +11,6 @@ class DetalleNotificacion extends StatefulWidget {
 }
 
 class _DetalleNotificacionState extends State<DetalleNotificacion> {
-
   @override
   void initState() {
     actualizarRead();
@@ -30,7 +29,10 @@ class _DetalleNotificacionState extends State<DetalleNotificacion> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(data['supre_memo'], style: const TextStyle(fontSize: 15),),
+        title: Text(
+          data['memo'],
+          style: const TextStyle(fontSize: 15),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Padding(
@@ -43,35 +45,59 @@ class _DetalleNotificacionState extends State<DetalleNotificacion> {
               children: [
                 const SizedBox(height: 10,),
                 const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Asunto:', style: TextStyle(color: Colors.grey))
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Titulo:',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(data['titulo']),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 10,),
                 const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Número de memorandum:', style: TextStyle(color: Colors.grey))
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Asunto:',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: Text(data['supre_memo']),
+                  child: Text(data['cuerpo']),
                 ),
                 const SizedBox(height: 20,),
                 const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Unidad(es):', style: TextStyle(color: Colors.grey))
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Número de memorandum:',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: Text(data['supre_unidad']),
+                  child: Text(data['memo']),
                 ),
                 const SizedBox(height: 20,),
                 const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Fecha del movimiento:', style: TextStyle(color: Colors.grey))
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Unidad(es):',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(data['unidad']),
+                ),
+                const SizedBox(height: 20,),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Fecha del movimiento:',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
@@ -79,8 +105,11 @@ class _DetalleNotificacionState extends State<DetalleNotificacion> {
                 ),
                 const SizedBox(height: 20,),
                 const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Para mas información visite en el sistema sivyc:', style: TextStyle(color: Colors.grey))
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Para mas información visite en el sistema sivyc:',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
@@ -94,5 +123,4 @@ class _DetalleNotificacionState extends State<DetalleNotificacion> {
       ),
     );
   }
-
 }
