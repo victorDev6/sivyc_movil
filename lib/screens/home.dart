@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sivyc/alerts/loader.dart';
 import 'package:sivyc/main.dart';
 import 'package:sivyc/modelos/item_model.dart';
 import 'package:sivyc/widgets/error_comunicacion.dart';
@@ -94,6 +95,17 @@ class _HomeState extends State<Home> {
       });
    }
 
+   void showSnackBar(String texto) {
+     final snackBar = SnackBar(
+       content: Text(texto),
+       padding: const EdgeInsets.all(15),
+       backgroundColor: Theme.of(context).primaryColor,
+       duration: const Duration(seconds: 15),
+
+     );
+     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,11 +131,19 @@ class _HomeState extends State<Home> {
                                    behavior: HitTestBehavior.translucent,
                                    //onTap: _controller.hideMenu,
                                    onTap: () {
-                                       if (item.title == 'Cerrar sesión') {
-                                          sharedPreferences.clear();
-                                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (route) => false);
-                                       }
-                                       _controller.hideMenu();
+                                     if (item.title == 'Cerrar sesión') {
+                                       Loader().showCargando(context);
+                                       HttpHandle().updateToken(id_sivic.toString()).then((valueRes) {
+                                         Navigator.of(context).pop();
+                                         if (valueRes == 'success') {
+                                           sharedPreferences.clear();
+                                           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (route) => false);
+                                         } else {
+                                           showSnackBar('Ocurrio un error, intente de nuevo por favor');
+                                         }
+                                       });
+                                     }
+                                     _controller.hideMenu();
                                    },
                                    child: Container(
                                       height: 40,

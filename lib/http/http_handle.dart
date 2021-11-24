@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 
 class HttpHandle {
 
-   //String path = 'http://192.168.137.252:8000';
-   String path = 'http://sivyc.icatech.gob.mx';
+   String path = 'http://192.168.137.252:8000';
+   //String path = 'http://sivyc.icatech.gob.mx';
 
    Future auth(String email, String password, String token) async {
       var url = Uri.parse('$path/api/sivycMovil/login');
@@ -49,6 +49,20 @@ class HttpHandle {
       var url = Uri.parse('$path/api/sivycMovil/updateRead');
       try {
          var response = await http.post(url, body: {'id': id, 'read': read.toString()});
+         if (response.statusCode == 200) {
+            String body = utf8.decode(response.bodyBytes);
+            return jsonDecode(body);
+         }
+         return null;
+      } catch (e) {
+         return e;
+      }
+   }
+
+   Future updateToken(String id) async {
+      var url = Uri.parse('$path/api/sivycMovil/updateToken');
+      try {
+         var response = await http.post(url, body: {'id': id});
          if (response.statusCode == 200) {
             String body = utf8.decode(response.bodyBytes);
             return jsonDecode(body);
