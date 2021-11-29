@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class HttpHandle {
 
-   String path = 'http://192.168.137.252:8000';
+   String path = 'http://192.168.137.52:8000';
    //String path = 'http://sivyc.icatech.gob.mx';
 
    Future auth(String email, String password, String token) async {
